@@ -1,4 +1,5 @@
 from infr.basepage import BasePage
+from infr.useful_functions import get_digits
 from infr.locator import (
     Button,
     TextInput,
@@ -25,8 +26,7 @@ class CatalogPageDNS(BasePage):
 
     def check_price(self):
         items = self.item_price().get_all_elements()
-        first_item_price = items[0].text
-        reference_price = int(first_item_price.replace(' ', ''))
+        reference_price = get_digits(items[0].text)
         for item in items[1:]:
-            price = int(item.text.replace(' ', ''))
+            price = get_digits(item.text)
             assert_that(reference_price, less_than_or_equal_to(price))
